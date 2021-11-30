@@ -167,7 +167,7 @@ uint8_t rxbuff[5];
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_SPI_TransmitReceive_DMA(&hspi1, txbuff,rxbuff,5);
+    HAL_SPI_MY_TransmitReceive_DMA(&hspi1, txbuff,rxbuff,5);
     SX1280_ID = Radio.GetFirmwareVersion();//获取芯片信息 0xA9B7 可用于测试SPI的读写情况
     
     HAL_GPIO_TogglePin(LED_Red_GPIO_Port,LED_Red_Pin);

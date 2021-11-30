@@ -44,7 +44,7 @@ Maintainer: Miguel Luis, Gregory Cristian and Matthieu Verdy
 #define RADIO_nRESET_H  HAL_GPIO_WritePin(SX1280_RESET_GPIO_Port,SX1280_RESET_Pin,GPIO_PIN_SET)
 
 
-#define SX1280_SPI_WR(pTxData, pRxData, Size)	HAL_SPI_TransmitReceive_DMA(&hspi1, pTxData,pRxData,Size)
+#define SX1280_SPI_WR(pTxData, pRxData, Size)	HAL_SPI_MY_TransmitReceive_DMA(&hspi1, pTxData,pRxData,Size)
 
 
 /***************************************************************************************/

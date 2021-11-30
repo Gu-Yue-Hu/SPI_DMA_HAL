@@ -46,6 +46,8 @@ void SPI_Cmd(SPI_TypeDef* SPIx, FunctionalState NewState);
 /* USER CODE END Prototypes */
 void SPI1_Send( uint8_t *buff, uint32_t len );
 void SPI1_Recive( uint8_t *buff, uint32_t len );  
+
+void HAL_SPI1_TX_DMA_IRQHandler(DMA_HandleTypeDef *hdma);
 #ifdef __cplusplus
 }
 #endif
