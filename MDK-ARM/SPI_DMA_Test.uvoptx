@@ -120,7 +120,6 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>鳬?泻?</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -164,6 +163,11 @@
           <count>1</count>
           <WinNumber>1</WinNumber>
           <ItemText>hdma_spi1_tx</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>SX1280_ID</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

@@ -128,7 +128,7 @@ uint16_t TxIrqMask = IRQ_TX_DONE | IRQ_RX_DONE ;   //TX模式下会触发的中断
 ModulationParams_t modulationParams;    //描述每种数据包类型的调制参数的类型
 PacketParams_t packetParams;            //描述每种数据包类型的数据包参数的类型
 PacketStatus_t packetStatus;            //代表每种数据包类型的数据包状态
-
+uint32_t SX1280_ID;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -160,7 +160,7 @@ int main(void)
   /* USER CODE END 2 */
   Radio.Init( &Callbacks );//初始化回调函数
   Radio.SetRegulatorMode( USE_DCDC ); // 也可以设置为LDO模式但消耗更多功率 USE_DCDC  USE_LDO
-uint32_t SX1280_ID;
+
 uint8_t txbuff[5]={0x19,0x01,0x53,0x00,0x00};
 uint8_t rxbuff[5];
   /* Infinite loop */
@@ -168,6 +168,8 @@ uint8_t rxbuff[5];
   while (1)
   {
     HAL_SPI_MY_TransmitReceive_DMA(&hspi1, txbuff,rxbuff,5);
+    HAL_SPI_MY_TransmitReceive_DMA(&hspi1, txbuff,rxbuff,5);
+    
     SX1280_ID = Radio.GetFirmwareVersion();//获取芯片信息 0xA9B7 可用于测试SPI的读写情况
     
     HAL_GPIO_TogglePin(LED_Red_GPIO_Port,LED_Red_Pin);

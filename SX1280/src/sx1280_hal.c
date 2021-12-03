@@ -156,6 +156,7 @@ void SpiIn( uint8_t *txBuffer, uint16_t size )
 void SpiInOut( uint8_t *txBuffer, uint8_t *rxBuffer, uint16_t size )
 {
     SX1280_SPI_WR(txBuffer,rxBuffer,size); 
+ 
 }
 
 /*!

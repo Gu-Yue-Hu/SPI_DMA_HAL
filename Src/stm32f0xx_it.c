@@ -152,12 +152,9 @@ void DMA1_Channel2_3_IRQHandler(void)
 
   /* USER CODE END DMA1_Channel2_3_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_spi1_rx);
-  HAL_SPI1_TX_DMA_IRQHandler(&hdma_spi1_tx);
+  HAL_DMA_IRQHandler(&hdma_spi1_tx);
   
   /* USER CODE BEGIN DMA1_Channel2_3_IRQn 1 */
-//if(__HAL_DMA_GET_IT_SOURCE(&hdma_spi1_rx, DMA_IT_TC)){
-//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
-//  }
   /* USER CODE END DMA1_Channel2_3_IRQn 1 */
 }
 

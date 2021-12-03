@@ -115,8 +115,8 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     __HAL_LINKDMA(spiHandle,hdmarx,hdma_spi1_rx);
 
     /* SPI1 interrupt Init */
-    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(SPI1_IRQn);
+//    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+//    HAL_NVIC_EnableIRQ(SPI1_IRQn);
 
   /* USER CODE BEGIN SPI1_MspInit 1 */
 
@@ -315,94 +315,32 @@ void BSP_SPI_Receive(uint8_t *pRxData, uint16_t Size)
 }
 
 /*
-* 在it.c中，要先调用
-  HAL_DMA_IRQHandler(&hdma_spi1_rx);
-  HAL_SPI1_TX_DMA_IRQHandler(&hdma_spi1_tx);//在此函数中会对NSS引脚拉高
+* SPI_DMA读写函数
 */
-void HAL_SPI1_TX_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
+void HAL_SPI_MY_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData,uint16_t Size)
 {
-	uint32_t flag_it = hdma->DmaBaseAddress->ISR;
-  uint32_t source_it = hdma->Instance->CCR;
-          
-  /* Half Transfer Complete Interrupt management ******************************/
-  if ((RESET != (flag_it & (DMA_FLAG_HT1 << hdma->ChannelIndex))) && (RESET != (source_it & DMA_IT_HT)))
-  {
-  	/* Disable the half transfer interrupt if the DMA mode is not CIRCULAR */
-  	if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0U)
-  	{
-  		/* Disable the half transfer interrupt */
-  		hdma->Instance->CCR &= ~DMA_IT_HT;
-  	}
-  	
-  	/* Clear the half transfer complete flag */
-  	hdma->DmaBaseAddress->IFCR = DMA_FLAG_HT1 << hdma->ChannelIndex;
-  	
-  	/* DMA peripheral state is not updated in Half Transfer */
-  	/* State is updated only in Transfer Complete case */
-  	
-  	if(hdma->XferHalfCpltCallback != NULL)
-  	{
-  		/* Half transfer callback */
-  		hdma->XferHalfCpltCallback(hdma);
-  	}
-  }
+  hspi->Instance->CR2 |= SPI_CR2_TXDMAEN;
+	hspi->Instance->CR2 |= SPI_CR2_RXDMAEN;
+	hdma_spi1_tx.Instance->CCR &= ~DMA_CCR_EN;
+  hdma_spi1_tx.Instance->CPAR = (uint32_t)&hspi->Instance->DR;
+  hdma_spi1_tx.Instance->CMAR = (uint32_t)pTxData;	
+	hdma_spi1_tx.Instance->CNDTR = Size;
+
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);
   
-  /* Transfer Complete Interrupt management ***********************************/
-  else if ((RESET != (flag_it & (DMA_FLAG_TC1 << hdma->ChannelIndex))) && (RESET != (source_it & DMA_IT_TC)))
-  {
-  	if((hdma->Instance->CCR & DMA_CCR_CIRC) == 0U)
-  	{
-  		/* Disable the transfer complete  & transfer error interrupts */
-  		/* if the DMA mode is not CIRCULAR */
-  		hdma->Instance->CCR &= ~(DMA_IT_TC | DMA_IT_TE);
-  		
-  		/* Change the DMA state */
-  		hdma->State = HAL_DMA_STATE_READY;
-  	}
-  	
-  	/* Clear the transfer complete flag */
-  	hdma->DmaBaseAddress->IFCR = DMA_FLAG_TC1 << hdma->ChannelIndex;
-    
-    /*nss up*/
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
-    
-  	/* Process Unlocked */
-  	__HAL_UNLOCK(hdma);
-  	
-  	if(hdma->XferCpltCallback != NULL)
-  	{
-  		/* Transfer complete callback */
-  		hdma->XferCpltCallback(hdma);
-  	}
-  }
+	hdma_spi1_tx.Instance->CCR |= DMA_CCR_EN;
+	hdma_spi1_rx.Instance->CCR &= ~DMA_CCR_EN;
+  hdma_spi1_rx.Instance->CPAR = (uint32_t)&hspi->Instance->DR;
+  hdma_spi1_rx.Instance->CMAR = (uint32_t)pRxData;	
+	hdma_spi1_rx.Instance->CNDTR = Size;
+	hdma_spi1_rx.Instance->CCR |= DMA_CCR_EN;
   
-  /* Transfer Error Interrupt management ***************************************/
-  else if (( RESET != (flag_it & (DMA_FLAG_TE1 << hdma->ChannelIndex))) && (RESET != (source_it & DMA_IT_TE)))
-  {
-  	/* When a DMA transfer error occurs */
-    /* A hardware clear of its EN bits is performed */
-    /* Then, disable all DMA interrupts */
-    hdma->Instance->CCR &= ~(DMA_IT_TC | DMA_IT_HT | DMA_IT_TE);
-    
-    /* Clear all flags */
-    hdma->DmaBaseAddress->IFCR = DMA_FLAG_GL1 << hdma->ChannelIndex;
-    
-    /* Update error code */
-    hdma->ErrorCode = HAL_DMA_ERROR_TE;
-    
-    /* Change the DMA state */
-    hdma->State = HAL_DMA_STATE_READY;    
-    
-    /* Process Unlocked */
-    __HAL_UNLOCK(hdma); 
-    
-    if(hdma->XferErrorCallback != NULL)
-    {
-    	/* Transfer error callback */
-    	hdma->XferErrorCallback(hdma);
-    }
-   }
-}  
+  hspi->Instance->CR1 |= SPI_CR1_SPE;
+
+  while((hspi->Instance->SR & SPI_SR_RXNE)!=RESET);
+  while((hspi->Instance->SR & SPI_SR_BSY)!=RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
+}
 
 /* USER CODE END 1 */
 

@@ -1,0 +1,91 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.25.2.0
+Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: guyue guyue, guyue, LIC=76F56-DPSJU-PCHJ8-3HS05-IGF9P-GU7Z2
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.25.2.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.25.2.0
+Dialog DLL:      DARMCM1.DLL V1.19.1.0
+Target DLL:      Segger\JL2CM3.dll V2.99.29.0
+Dialog DLL:      TARMCM1.DLL V1.14.0.0
+ 
+<h2>Project:</h2>
+D:\Documents\Desktop\SPI_DMA_HAL\MDK-ARM\SPI_DMA_Test.uvprojx
+Project File Date:  12/03/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'SPI_DMA_Test'
+compiling dma.c...
+compiling gpio.c...
+compiling main.c...
+compiling spi.c...
+compiling stm32f0xx_it.c...
+compiling stm32f0xx_hal_msp.c...
+compiling stm32f0xx_hal_spi_ex.c...
+compiling stm32f0xx_hal_spi.c...
+compiling stm32f0xx_hal_tim_ex.c...
+compiling stm32f0xx_hal_tim.c...
+compiling stm32f0xx_hal_rcc.c...
+compiling stm32f0xx_hal_rcc_ex.c...
+compiling stm32f0xx_hal.c...
+compiling stm32f0xx_hal_i2c_ex.c...
+compiling stm32f0xx_hal_gpio.c...
+compiling stm32f0xx_hal_i2c.c...
+compiling stm32f0xx_hal_dma.c...
+compiling stm32f0xx_hal_cortex.c...
+compiling stm32f0xx_hal_pwr_ex.c...
+compiling stm32f0xx_hal_pwr.c...
+compiling stm32f0xx_hal_flash.c...
+compiling system_stm32f0xx.c...
+compiling stm32f0xx_hal_flash_ex.c...
+compiling sx1280.c...
+..\SX1280\src\sx1280.c(189): warning:  #550-D: variable "buf"  was set but never used
+      uint8_t buf[3];
+..\SX1280\src\sx1280.c(216): warning:  #550-D: variable "buf"  was set but never used
+      uint8_t buf[3];
+..\SX1280\src\sx1280.c(79): warning:  #550-D: variable "IrqState"  was set but never used
+  static bool IrqState;
+..\SX1280\src\sx1280.c: 3 warnings, 0 errors
+compiling sx1280_hal.c...
+linking...
+Program Size: Code=9512 RO-data=504 RW-data=72 ZI-data=1776  
+FromELF: creating hex file...
+"SPI_DMA_Test\SPI_DMA_Test.axf" - 0 Error(s), 3 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.3.0.pack
+                ARM.CMSIS.5.3.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.1.1
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F0xx_DFP.2.0.0.pack
+                Keil.STM32F0xx_DFP.2.0.0
+                STMicroelectronics STM32F0 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_SPI_DMA_Test
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.1.1
+Build Time Elapsed:  00:00:31
+</pre>
+</body>
+</html>
